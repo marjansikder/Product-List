@@ -52,7 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Color(0xFFFFF8E1),
         builder: (context) => SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top,
+              bottom: MediaQuery.of(context).viewInsets.bottom,),
             child: Container(
               width: double.infinity,
               decoration: RootContainers.instance.getBoxDecorations(

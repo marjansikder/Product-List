@@ -28,7 +28,7 @@ class AppConstants{
   static final AppConstants _instance = AppConstants._privateConstructor();
   static AppConstants get instance => _instance;
 
-  static const int SPLASH_SCREEN_DURATION = 2;
+  static const int SPLASH_SCREEN_DURATION = 3;
   static const String DEVICE_TOKEN = "2OEL4P1Rz04-2OEL4P1Rz04-2OEL4P1Rz04-2OEL4P1Rz04";
   static const String PREF_KEY_AUTH_TOKEN = "bearer_token";
 }

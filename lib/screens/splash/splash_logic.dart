@@ -16,8 +16,9 @@ class SplashLogic extends BaseController {
   @override
   void onReady() {
     super.onReady();
-    _splashScreenTimer();
-    //Get.offAll(() => SignInPage(),transition: Transition.native,duration: const Duration(milliseconds: 500),curve:Curves.easeInCubic );
+    //_splashScreenTimer();
+    _splashScreen();
+  //  Get.offAll(() => HomeScreen(),transition: Transition.native,duration: const Duration(milliseconds: 1000),curve:Curves.easeInCubic );
   }
 
   _splashScreenTimer(){
@@ -31,4 +32,14 @@ class SplashLogic extends BaseController {
         Get.offAll(() => SignInPage(),transition: Transition.native,duration: const Duration(milliseconds: 500),curve:Curves.easeInCubic );
     });
   }
+
+  _splashScreen(){
+    Timer( const Duration(seconds: AppConstants.SPLASH_SCREEN_DURATION), () async {
+      Get.to(() => HomeScreen(), transition: Transition.native,
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.easeInCubic);
+    });
+    }
+
+
 }

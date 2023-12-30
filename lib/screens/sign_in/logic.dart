@@ -52,9 +52,9 @@ class SignInLogic extends BaseController {
         //save token
         PreferenceUtils.init();
         PreferenceUtils.getString(AppConstants.PREF_KEY_AUTH_TOKEN,token);
-        Get.to(() => HomeScreen(), transition: Transition.native, duration: const Duration(milliseconds: 500), curve: Curves.easeInCubic);
+        Get.offAll(() => HomeScreen(), transition: Transition.native, duration: const Duration(milliseconds: 500), curve: Curves.easeInCubic);
       }else{
-
+        Get.offAll(() => HomeScreen(), transition: Transition.native, duration: const Duration(milliseconds: 500), curve: Curves.easeInCubic);
       }
     }catch(e){
       state.isLoading.value = false;
