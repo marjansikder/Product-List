@@ -14,8 +14,7 @@ import '../customWidgets/CustomTextField.dart';
 import '../customWidgets/root_containers.dart';
 import '../models/notes_model.dart';
 import '../style/theme.dart';
-
-
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,6 +34,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   String noteDate = DateFormat("dd-MM-yyyy hh:mm aaa").format(DateTime.now());
   final _openBox = Hive.box('open_note');
+  //slider
+  List imageList = [
+    {"id": 1, "image_path": 'res/images/slider_images/banner.png'},
+    {"id": 2, "image_path": 'res/images/slider_images/bestsellersbanner.png'},
+    {"id": 3, "image_path": 'res/images/slider_images/banner.png'}
+  ];
+  final CarouselController carouselController = CarouselController();
+  int currentIndex = 0;
 
   void _showEdit (BuildContext context, int? itemKey)async{
     if(itemKey != null){
@@ -274,6 +281,66 @@ class _HomeScreenState extends State<HomeScreen> {
                           ImageLocation.dashboard + "/ic_exit.png"),width: 28,height: 28,
                       ),
                     ),),
+                ],
+              ),
+               SizedBox(
+                height: 10,
+              ),
+               Stack(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      print(currentIndex);
+                    },
+                    child: CarouselSlider(
+                      items: imageList
+                          .map(
+                            (item) => Image.asset(
+                          item['image_path'],
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      )
+                          .toList(),
+                      carouselController: carouselController,
+                      options: CarouselOptions(
+                        scrollPhysics: const BouncingScrollPhysics(),
+                        autoPlay: true,
+                        aspectRatio: 2,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            currentIndex = index;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: imageList.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => carouselController.animateToPage(entry.key),
+                          child: Container(
+                            width: currentIndex == entry.key ? 17 : 7,
+                            height: 7.0,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 3.0,
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: currentIndex == entry.key
+                                    ? Colors.red
+                                    : Colors.teal),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
                SizedBox(

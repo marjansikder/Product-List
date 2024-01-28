@@ -7,4 +7,5 @@ class ImageLocation{
   static const String dashboard = "res/images/dashboard";
   static const String sign_in = "res/images/sign_in";
   static const String test_images = "res/images/testImages";
+  static const String slider_images = "res/images/slider_images";
 }

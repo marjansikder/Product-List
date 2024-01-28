@@ -52,6 +52,7 @@ dependencies:
   open_file: ^3.2.1
   pretty_dio_logger: ^1.1.1
   logger: ^2.0.2+1
+  carousel_slider: ^4.2.1
 
 
 dev_dependencies:
@@ -70,6 +71,7 @@ flutter_icons:
   build_runner: ^2.4.6
   hive_generator: ^2.0.0
 
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -87,3 +89,4 @@ flutter:
     - res/images/dashboard/
     - res/images/sign_in/
     - res/images/testImages/
+    - res/images/slider_images/
