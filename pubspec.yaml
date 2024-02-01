@@ -53,6 +53,7 @@ dependencies:
   pretty_dio_logger: ^1.1.1
   logger: ^2.0.2+1
   carousel_slider: ^4.2.1
+  webview_flutter: ^4.4.4
 
 
 dev_dependencies:

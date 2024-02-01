@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:product_list/screens/web_view/view.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../config/app_settings.dart';
 import '../constant/colors.dart';
 import '../constant/text_style.dart';
@@ -24,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   List<Note> filteredNotes = [];
   List<Note> sampleNotes = [];
   bool sorted = false;
@@ -43,9 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
-  void _showEdit (BuildContext context, int? itemKey)async{
-    if(itemKey != null){
-      final existingItem = _items.firstWhere((element) => element['key'] == itemKey);
+  void _showEdit(BuildContext context, int? itemKey) async {
+    if (itemKey != null) {
+      final existingItem =
+          _items.firstWhere((element) => element['key'] == itemKey);
       _headLineController.text = existingItem['title'];
       _descriptionController.text = existingItem['content'];
     }
@@ -53,154 +57,165 @@ class _HomeScreenState extends State<HomeScreen> {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        useSafeArea:true,
+        useSafeArea: true,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(15.0))),
         backgroundColor: Color(0xFFFFF8E1),
         builder: (context) => SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
-              bottom: MediaQuery.of(context).viewInsets.bottom,),
-            child: Container(
-              width: double.infinity,
-              decoration: RootContainers.instance.getBoxDecorations(
-                  AppColors.priceShowColor, 5),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 10,),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text('■ Product Name :',
-                          style: getTextStyle(15, FontWeight.normal, AppColors.textFieldTopColor),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top,
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  decoration: RootContainers.instance
+                      .getBoxDecorations(AppColors.priceShowColor, 5),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
                         ),
-                      ),),
-                    CustomTextFields(
-                        "",
-                        _headLineController,
-                        TextInputType.text),
-                    SizedBox(height: 10,),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text('■ Product Details :',
-                          style: getTextStyle(15, FontWeight.normal, AppColors.textFieldTopColor),
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                      child: Container(
-                        padding: EdgeInsets.only(left: 20,right: 20,bottom: 5),
-                        decoration: new BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: new BorderRadius.only(
-                              topLeft: const Radius.circular(5.0),
-                              topRight: const Radius.circular(5.0),
-                              bottomLeft: const Radius.circular(5.0),
-                              bottomRight: const Radius.circular(5.0),
-                            )
-                        ),
-                        child: TextField(
-                            controller: _descriptionController,
-                            maxLines: 5,
-                            minLines: 5,
-                            decoration: InputDecoration(
-                              border: InputBorder
-                                  .none,
-                              hintText: 'Write details..'.tr,
-                              hintStyle: getTextStyle(14,FontWeight.normal, Colors.grey),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Text(
+                              '■ Product Name :',
+                              style: getTextStyle(15, FontWeight.normal,
+                                  AppColors.textFieldTopColor),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            style: getTextStyle(
-                                16,
-                                FontWeight.normal,
-                                Colors.black)
+                          ),
                         ),
-                      ),
+                        CustomTextFields(
+                            "", _headLineController, TextInputType.text),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Text(
+                              '■ Product Details :',
+                              style: getTextStyle(15, FontWeight.normal,
+                                  AppColors.textFieldTopColor),
+                              maxLines: 5,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          child: Container(
+                            padding:
+                                EdgeInsets.only(left: 20, right: 20, bottom: 5),
+                            decoration: new BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: new BorderRadius.only(
+                                  topLeft: const Radius.circular(5.0),
+                                  topRight: const Radius.circular(5.0),
+                                  bottomLeft: const Radius.circular(5.0),
+                                  bottomRight: const Radius.circular(5.0),
+                                )),
+                            child: TextField(
+                                controller: _descriptionController,
+                                maxLines: 5,
+                                minLines: 5,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Write details..'.tr,
+                                  hintStyle: getTextStyle(
+                                      14, FontWeight.normal, Colors.grey),
+                                ),
+                                style: getTextStyle(
+                                    16, FontWeight.normal, Colors.black)),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20, top: 20),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.purple,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 100, vertical: 5),
+                                  textStyle: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold)),
+                              onPressed: () async {
+                                if (_headLineController.text.isEmpty &&
+                                    _descriptionController.text.isEmpty) {
+                                  Fluttertoast.showToast(msg: 'Empty field!');
+                                } else if (itemKey == null) {
+                                  createItem({
+                                    "title": _headLineController.text,
+                                    "content": _descriptionController.text,
+                                    "noteDate": noteDate
+                                  });
+                                  Navigator.pop(context);
+                                } else {
+                                  editItem(itemKey, {
+                                    "title": _headLineController.text.trim(),
+                                    "content":
+                                        _descriptionController.text.trim(),
+                                    "noteDate": noteDate.trim()
+                                  });
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: const Icon(Icons.save),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 10,),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20,top: 20),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.purple,
-                              padding: EdgeInsets.symmetric(horizontal: 100, vertical: 5),
-                              textStyle: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold)),
-                          onPressed: ()async{
-                            if(_headLineController.text.isEmpty && _descriptionController.text.isEmpty){
-                              Fluttertoast.showToast(msg: 'Empty field!');
-                            } else if (itemKey == null){
-                              createItem ({
-                                "title" : _headLineController.text,
-                                "content" : _descriptionController.text,
-                                "noteDate" : noteDate
-                              });
-                              Navigator.pop(context);
-                            } else {
-                              editItem (itemKey,{
-                                "title" : _headLineController.text.trim(),
-                                "content" : _descriptionController.text.trim(),
-                                "noteDate" : noteDate.trim()
-                              });
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: const Icon(Icons.save),),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        )).whenComplete(() =>    setState(() {
-      _headLineController.text = '';
-      _descriptionController.text = '';
-    }));
+            )).whenComplete(() => setState(() {
+          _headLineController.text = '';
+          _descriptionController.text = '';
+        }));
   }
 
-  Future<void> createItem (Map<String, dynamic> newItem)async{
+  Future<void> createItem(Map<String, dynamic> newItem) async {
     await _openBox.add(newItem);
     print('>>>>>>>>>>>${_openBox.length}');
-    refreshItems ();
-
+    refreshItems();
   }
 
-  Future<void> editItem (int itemKey,Map<String, dynamic> item)async{
+  Future<void> editItem(int itemKey, Map<String, dynamic> item) async {
     await _openBox.put(itemKey, item);
     print('>>>>>>>>>>>${_openBox.length}');
-    refreshItems ();
-
+    refreshItems();
   }
 
-  Future<void> deleteItem (int itemKey)async{
+  Future<void> deleteItem(int itemKey) async {
     await _openBox.delete(itemKey);
     print('>>>>>>>>>>>${_openBox.length}');
-    refreshItems ();
-
+    refreshItems();
   }
 
-  void refreshItems () {
-    final data = _openBox.keys.map((key){
+  void refreshItems() {
+    final data = _openBox.keys.map((key) {
       final item = _openBox.get(key);
       return {
         "key": key,
         "title": item["title"],
         "content": item["content"],
-        "noteDate" : item["noteDate"]
+        "noteDate": item["noteDate"]
       };
-
-    } ).toList();
+    }).toList();
     setState(() {
       _items = data.reversed.toList();
       print('____________${_items.length}');
@@ -233,9 +248,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onSearchTextChanged(String searchText) {
     setState(() {
-      filteredNotes = sampleNotes.where((note) =>
-      note.content.toLowerCase().contains(searchText.toLowerCase()) ||
-          note.title.toLowerCase().contains(searchText.toLowerCase()))
+      filteredNotes = sampleNotes
+          .where((note) =>
+              note.content.toLowerCase().contains(searchText.toLowerCase()) ||
+              note.title.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
     });
   }
@@ -261,32 +277,36 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                   Text(
+                  Text(
                     'Product List',
                     style: TextStyle(fontSize: 30, color: Colors.black),
                   ),
                   GestureDetector(
-                    onTap:(){
-                      showCustomDialogBox(Get.context!,'Please Confirm'.tr, 'Want to Exit?'.tr,null,null,
-                          onConfirm: (){
-                            SystemNavigator.pop();
-                          },
-                          onCancel: () {
-                            Get.back();
-                          });
+                    onTap: () {
+                      showCustomDialogBox(Get.context!, 'Please Confirm'.tr,
+                          'Want to Exit?'.tr, null, null, onConfirm: () {
+                        SystemNavigator.pop();
+                      }, onCancel: () {
+                        Get.back();
+                      });
                     },
-                    child:Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 0),
-                      child: Image(image: AssetImage(
-                          ImageLocation.dashboard + "/ic_exit.png"),width: 28,height: 28,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 0),
+                      child: Image(
+                        image: AssetImage(
+                            ImageLocation.dashboard + "/ic_exit.png"),
+                        width: 28,
+                        height: 28,
                       ),
-                    ),),
+                    ),
+                  ),
                 ],
               ),
-               SizedBox(
+              SizedBox(
                 height: 10,
               ),
-               Stack(
+              Stack(
                 children: [
                   InkWell(
                     onTap: () {
@@ -296,11 +316,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       items: imageList
                           .map(
                             (item) => Image.asset(
-                          item['image_path'],
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      )
+                              item['image_path'],
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          )
                           .toList(),
                       carouselController: carouselController,
                       options: CarouselOptions(
@@ -324,7 +344,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: imageList.asMap().entries.map((entry) {
                         return GestureDetector(
-                          onTap: () => carouselController.animateToPage(entry.key),
+                          onTap: () =>
+                              carouselController.animateToPage(entry.key),
                           child: Container(
                             width: currentIndex == entry.key ? 17 : 7,
                             height: 7.0,
@@ -343,27 +364,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-               SizedBox(
+              SizedBox(
+                height: 10,
+              ),
+
+              GestureDetector(
+                onTap: (){
+                  Get.to(()=> WebViewPage());
+
+                },
+                child: Container(
+                  height: 20,
+                    child: Text('Go')),
+              ),
+              SizedBox(
                 height: 10,
               ),
               GestureDetector(
-                onTap: () async{
+                onTap: () async {
                   _showEdit(context, null);
                 },
                 child: Container(
                   width: double.infinity,
                   decoration: RootContainers.instance
                       .getBoxDecorations(AppColors.priceShowColor, 5),
-                  child:  ListTile(
+                  child: ListTile(
                     dense: true,
                     visualDensity: VisualDensity.compact,
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: 5.0, horizontal: 16.0),
-                    title:Text(
-                      'Product Add', style: getTextStyle(
-                        15, FontWeight.normal,
-                        AppColors.black),),
-                    trailing: Icon(Icons.add_shopping_cart, size: 22, color: AppColors.greenButton,),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
+                    title: Text(
+                      'Product Add',
+                      style:
+                          getTextStyle(15, FontWeight.normal, AppColors.black),
+                    ),
+                    trailing: Icon(
+                      Icons.add_shopping_cart,
+                      size: 22,
+                      color: AppColors.greenButton,
+                    ),
                   ),
                 ),
               ),
@@ -384,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                           child: GestureDetector(
-                            onTap: () async{
+                            onTap: () async {
                               _showEdit(context, currentItem['key']);
                             },
                             child: Container(
@@ -401,20 +440,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16, 8, 8, 8),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(16, 8, 8, 8),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Hero(
                                       tag: 'ControllerImage',
                                       transitionOnUserGestures: true,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12),
-                                        child: Image(image: AssetImage(
-                                            ImageLocation.dashboard +
-                                                "/product.jpg"),
+                                        child: Image(
+                                          image: AssetImage(
+                                              ImageLocation.dashboard +
+                                                  "/product.jpg"),
                                           height: 80,
                                           fit: BoxFit.contain,
                                         ),
@@ -426,33 +467,40 @@ class _HomeScreenState extends State<HomeScreen> {
                                             12, 0, 0, 0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 8),
-                                              child: Text( 'Product name: '+
-                                                currentItem["title"],
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 0, 0, 8),
+                                              child: Text(
+                                                'Product name: ' +
+                                                    currentItem["title"],
                                                 style: getTextStyle(
-                                                    12, FontWeight.normal,
+                                                    12,
+                                                    FontWeight.normal,
                                                     Colors.blueAccent),
                                               ),
                                             ),
                                             Text(
                                               'Details: ',
                                               style: getTextStyle(
-                                                  12, FontWeight.normal,
+                                                  12,
+                                                  FontWeight.normal,
                                                   Colors.red),
                                             ),
-                                            Divider(thickness: 1, color: Color(0xffBCCCCCC)),
+                                            Divider(
+                                                thickness: 1,
+                                                color: Color(0xffBCCCCCC)),
                                             Text(
                                               '${currentItem["content"]} \n',
                                               maxLines: 3,
                                               overflow: TextOverflow.ellipsis,
                                               style: getTextStyle(
-                                                  12, FontWeight.normal,
+                                                  12,
+                                                  FontWeight.normal,
                                                   Colors.black),
                                             ),
                                           ],
@@ -465,8 +513,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Color(0xFFE86969),
                                         size: 20,
                                       ),
-                                      onPressed: () async{
-                                        final result = await confirmDialog(context);
+                                      onPressed: () async {
+                                        final result =
+                                            await confirmDialog(context);
                                         if (result != null && result) {
                                           deleteItem(currentItem['key']);
                                           //deleteNote(index);
@@ -479,10 +528,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         );
-                      }
-              ),
-                ),)
-
+                      }),
+                ),
+              )
             ],
           ),
         ),
@@ -526,7 +574,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pop(context, false);
                       },
                       style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       child: const SizedBox(
                         width: 60,
                         child: Text(
@@ -543,14 +591,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     return TextEditingValue(
       text: capitalize(newValue.text),
       selection: newValue.selection,
     );
   }
 }
+
 String capitalize(String value) {
-  if(value.trim().isEmpty) return "";
+  if (value.trim().isEmpty) return "";
   return "${value[0].toUpperCase()}${value.substring(1).toLowerCase()}";
 }
