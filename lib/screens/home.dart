@@ -374,8 +374,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 },
                 child: Container(
-                  height: 20,
-                    child: Text('Go')),
+                    width: double.infinity,
+                    decoration: RootContainers.instance.getBoxDecorations(AppColors.takaColor, 5),
+                    child: Center(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Google Map', style:
+                          getTextStyle(15, FontWeight.normal, AppColors.white)),
+                    ))),
               ),
               SizedBox(
                 height: 10,
