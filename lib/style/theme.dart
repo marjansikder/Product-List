@@ -89,7 +89,7 @@ class AppThemeData{
 
   static ThemeData appMainThemeData() => ThemeData(
     primaryColor: AppColors.splashBackGround,
-    backgroundColor: AppColors.white,
+    cardColor: AppColors.white,
     scaffoldBackgroundColor: AppColors.white,
   );
 }

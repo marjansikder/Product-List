@@ -12,9 +12,8 @@ class CustomButtons{
   TextButton commonTextButtons(String text,void onPressButton(),Color? bgColor,Color? textColor){
     return TextButton(
       style: TextButton.styleFrom(
-        padding: EdgeInsets.only(top: 10,bottom: 10,left: 40,right: 40),
+        foregroundColor: textColor == null?Colors.white:textColor, padding: EdgeInsets.only(top: 10,bottom: 10,left: 40,right: 40),
         backgroundColor: bgColor == null ? AppColors.splashBackGround:bgColor,
-        primary: textColor == null?Colors.white:textColor,
         textStyle: getTextStyle(
             15,
           FontWeight.normal,
@@ -31,9 +30,8 @@ class CustomButtons{
   TextButton commonTextButtons1(String text,void onPressButton(),Color? bgColor,Color? textColor){
     return TextButton(
       style: TextButton.styleFrom(
-        padding: EdgeInsets.only(top: 5,bottom: 5,left: 20,right: 20),
+        foregroundColor: textColor == null?Colors.white:textColor, padding: EdgeInsets.only(top: 5,bottom: 5,left: 20,right: 20),
         backgroundColor: bgColor == null ? AppColors.splashBackGround:bgColor,
-        primary: textColor == null?Colors.white:textColor,
         textStyle: getTextStyle(
             14,
             FontWeight.normal,
@@ -80,9 +78,8 @@ class CustomButtons{
   TextButton commonFormButton(String text,void onPressButton(),Color? bgColor,Color? textColor){
     return TextButton(
       style: TextButton.styleFrom(
-        padding: EdgeInsets.only(top: 15,bottom: 15,left: 20,right: 20),
+        foregroundColor: textColor == null?Colors.white:textColor, padding: EdgeInsets.only(top: 15,bottom: 15,left: 20,right: 20),
         backgroundColor: bgColor == null?AppColors.splashBackGround:bgColor,
-        primary: textColor == null?Colors.white:textColor,
         textStyle: TextStyle(
           fontSize: 20,
         ),

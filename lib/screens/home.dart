@@ -1,5 +1,7 @@
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
+
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,7 +18,8 @@ import '../customWidgets/CustomTextField.dart';
 import '../customWidgets/root_containers.dart';
 import '../models/notes_model.dart';
 import '../style/theme.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/src/material/carousel.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
     {"id": 2, "image_path": 'res/images/slider_images/bestsellersbanner.png'},
     {"id": 3, "image_path": 'res/images/slider_images/banner.png'}
   ];
-  final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
   void _showEdit(BuildContext context, int? itemKey) async {
@@ -146,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(bottom: 20, top: 20),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.purple,
+                                  backgroundColor: Colors.purple,
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 100, vertical: 5),
                                   textStyle: TextStyle(
@@ -306,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 10,
               ),
-              Stack(
+              /*Stack(
                 children: [
                   InkWell(
                     onTap: () {
@@ -363,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ],
-              ),
+              ),*/
               SizedBox(
                 height: 10,
               ),
